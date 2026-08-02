@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrii Synenko — Senior Software Engineer, FinTech / Payments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #10151B;
+    --ink-2: #171E27;
+    --ink-3: #1D2530;
+    --paper: #ECE8DF;
+    --paper-dim: #B9BCB8;
+    --brass: #C29A4E;
+    --brass-dim: #8C6F3A;
+    --teal: #5C9AA1;
+    --line: #2A333D;
+    --muted: #7C8791;
+    --radius: 2px;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:var(--brass); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--teal); outline-offset:3px;}
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- background trace pattern ---------- */
+  .trace-bg{
+    position:fixed; inset:0; z-index:-1;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity:0.12;
+    mask-image: radial-gradient(circle at 20% 0%, black, transparent 70%);
+  }
+
+  /* ---------- eyebrow / field-code label, the signature device ---------- */
+  .field{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--brass);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    text-transform:uppercase;
+  }
+  .field::before{
+    content:"";
+    width:16px; height:1px;
+    background:var(--brass-dim);
+    display:inline-block;
+  }
+  .field .dim{color:var(--muted); font-weight:400;}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    padding:96px 0 72px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .trace-line{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:0.05em;
+    margin-bottom:40px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px 18px;
+  }
+  .trace-line span b{color:var(--teal); font-weight:500;}
+
+  h1.name{
+    font-family:var(--serif);
+    font-weight:450;
+    font-size:clamp(42px, 7vw, 76px);
+    line-height:1.02;
+    margin:0 0 6px;
+    color:var(--paper);
+    letter-spacing:-0.01em;
+  }
+  .role{
+    font-family:var(--mono);
+    font-size:14px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:34px;
+  }
+  .role .sep{color:var(--line); margin:0 8px;}
+
+  .summary{
+    max-width:640px;
+    font-size:17px;
+    color:#D5D1C7;
+    font-weight:400;
+  }
+  .summary em{color:var(--paper); font-style:normal; border-bottom:1px solid var(--brass-dim);}
+
+  .contact-row{
+    margin-top:44px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:28px;
+    font-family:var(--mono);
+    font-size:13px;
+  }
+  .contact-row a{color:var(--paper);}
+  .contact-row a:hover{color:var(--brass);}
+  .contact-row .k{color:var(--muted); margin-right:6px;}
+
+  /* ---------- generic section ---------- */
+  section{padding:64px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h2.section-title{
+    font-family:var(--serif);
+    font-weight:450;
+    font-size:28px;
+    margin:0 0 36px;
+    color:var(--paper);
+  }
+
+  /* ---------- skills grid ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:36px 40px;
+  }
+  .skill-group h3{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--paper);
+    margin:0 0 10px;
+  }
+  .skill-group ul{list-style:none; margin:0; padding:0;}
+  .skill-group li{
+    font-size:14px;
+    color:var(--paper-dim);
+    padding:5px 0;
+    border-top:1px solid var(--ink-3);
+  }
+  .skill-group li:first-child{border-top:none;}
+
+  /* ---------- experience log ---------- */
+  .record{
+    padding:28px 0;
+    border-top:1px solid var(--ink-3);
+    display:grid;
+    grid-template-columns:150px 1fr;
+    gap:24px;
+  }
+  .record:first-of-type{border-top:none;}
+  .record .when{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--muted);
+    padding-top:3px;
+  }
+  .record .when .now{color:var(--teal);}
+  .record-body .role-line{
+    font-size:17px;
+    font-weight:600;
+    color:var(--paper);
+    margin-bottom:2px;
+  }
+  .record-body .co-line{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--brass);
+    letter-spacing:0.03em;
+    margin-bottom:14px;
+    text-transform:uppercase;
+  }
+  .record-body p, .record-body li{
+    font-size:14.5px;
+    color:var(--paper-dim);
+  }
+  .record-body ul{margin:0 0 14px; padding-left:18px;}
+  .record-body li{margin-bottom:6px;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .tags span{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    border:1px solid var(--line);
+    padding:3px 8px;
+    border-radius:var(--radius);
+  }
+
+  /* ---------- education / languages ---------- */
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+  }
+  .two-col h3{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--paper);
+    margin:0 0 12px;
+  }
+  .two-col ul{list-style:none; margin:0; padding:0;}
+  .two-col li{
+    font-size:14px;
+    color:var(--paper-dim);
+    padding:6px 0;
+    border-top:1px solid var(--ink-3);
+  }
+  .two-col li:first-child{border-top:none;}
+
+  footer{
+    padding:48px 0 72px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--muted);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  footer a{color:var(--paper-dim);}
+
+  @media (max-width:640px){
+    .wrap{padding:0 20px;}
+    header.hero{padding:64px 0 48px;}
+    .record{grid-template-columns:1fr; gap:8px;}
+    .two-col{grid-template-columns:1fr;}
+  }
+
+  @media print{
+    .trace-bg{display:none;}
+    body{background:#fff; color:#111;}
+    header.hero{border-bottom:1px solid #ccc;}
+    h1.name, h2.section-title, .role-line{color:#111;}
+    .field, .role, .co-line{color:#555;}
+    a{color:#111;}
+    section{border-color:#ddd;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="trace-bg" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="trace-line">
+      <span>MTI <b>0800</b></span>
+      <span>DE-002 <b>PAN·VERIFIED</b></span>
+      <span>DE-039 <b>RC-00 APPROVED</b></span>
+      <span>DE-041 <b>KYIV, UA</b></span>
+    </div>
+    <h1 class="name">Andrii&nbsp;Synenko</h1>
+    <div class="role">Senior Software Engineer <span class="sep">/</span> FinTech <span class="sep">·</span> Payments <span class="sep">·</span> Cloud</div>
+    <p class="summary">10+ years building payment gateways, secure integrations and transaction processing (<em>ISO8583, NDC+</em>) for banks and processors. Led an Oracle → PostgreSQL migration across 310,000+ lines of SQL, shipped Apple Pay tokenization, and runs cloud-native systems on AWS/Kubernetes end to end — from Java backend to React frontend.</p>
+    <div class="contact-row">
+      <div><span class="k">mail</span><a href="mailto:andy.sinenko@gmail.com">andy.sinenko@gmail.com</a></div>
+      <div><span class="k">code</span><a href="https://github.com/andysinenko/" target="_blank" rel="noopener">github.com/andysinenko</a></div>
+      <div><span class="k">base</span><span style="color:var(--paper-dim)">Kyiv, Ukraine — open to remote</span></div>
+      <div><span class="k">lang</span><span style="color:var(--paper-dim)">English B2</span></div>
+    </div>
+  </header>
+
+  <section id="skills">
+    <div class="field">DE-048 <span class="dim">· additional data — stack</span></div>
+    <h2 class="section-title">Technical skills</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Architecture &amp; Leadership</h3>
+        <ul>
+          <li>MSA, EDA, DDD, SOLID, KISS, DRY, Clean Code</li>
+          <li>Code review, mentoring, technical roadmapping</li>
+          <li>Agile / Scrum</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Backend</h3>
+        <ul>
+          <li>Java 8 / 11 / 17 / 21, JS (ES6+), PL/SQL</li>
+          <li>Rust — Axum, SQLx, Tokio (in progress)</li>
+          <li>Spring Boot 2.x/3.x, Spring Cloud, Data JPA, Security, Hibernate</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Cloud &amp; DevOps</h3>
+        <ul>
+          <li>AWS: EC2, S3, RDS, Route53, ELB</li>
+          <li>Kubernetes, Docker, Docker Compose</li>
+          <li>GitHub Actions, Maven, Gradle</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Observability &amp; Data</h3>
+        <ul>
+          <li>ELK Stack — full setup &amp; configuration</li>
+          <li>Apache Solr</li>
+          <li>PostgreSQL, OracleDB — migration &amp; tuning</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>FinTech &amp; Security</h3>
+        <ul>
+          <li>ISO8583, NDC+/AANDC, JPos</li>
+          <li>3DES, AES, ECDH, RSA, JWT, SSL/TLS</li>
+          <li>Certified NCR Aptra Author Developer</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Frontend &amp; Integration</h3>
+        <ul>
+          <li>ReactJS, HTML5, CSS3, XPath</li>
+          <li>REST, SOAP, WebServices</li>
+          <li>ExtJS, XML, XSLT, SoapUI (legacy)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="field">DE-032 <span class="dim">· acquiring institution — history</span></div>
+    <h2 class="section-title">Experience</h2>
+
+    <div class="record">
+      <div class="when">07/2024 — <span class="now">present</span></div>
+      <div class="record-body">
+        <div class="role-line">Independent R&amp;D &amp; Personal Projects</div>
+        <div class="co-line">Self-directed</div>
+        <ul>
+          <li>Deep-dived into Rust (Axum, Tokio, SQLx) for high-performance, memory-safe backend services</li>
+          <li>Architected a microservices-based home library management system — Spring Boot 3.x, PostgreSQL, Elasticsearch, Redis</li>
+          <li>Built a high-concurrency API gateway in Axum/Tokio, benchmarked against a JVM equivalent</li>
+          <li>Completed further training in cloud-native architecture, Kubernetes, and Spring Cloud</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="record">
+      <div class="when">06/2021 — 07/2024</div>
+      <div class="record-body">
+        <div class="role-line">Senior Java Full Stack Developer</div>
+        <div class="co-line">KSF — DRD &amp; EOM2</div>
+        <ul>
+          <li>Built EOM2 from the ground up; delivered features and maintained DRD across the full stack (ExtJS/React → Spring Boot → PL/SQL)</li>
+          <li>Led application-level Oracle → PostgreSQL migration: audited, rewrote and tested 310,000+ lines of SQL and stored procedures</li>
+          <li>Primary technical contact for stakeholders; translated requirements into architecture, led code review</li>
+        </ul>
+        <div class="tags"><span>Java 17</span><span>Spring Boot</span><span>Hibernate</span><span>ReactJS</span><span>Kubernetes</span><span>AWS</span></div>
+      </div>
+    </div>
+
+    <div class="record">
+      <div class="when">01/2021 — 11/2021</div>
+      <div class="record-body">
+        <div class="role-line">Senior Java Developer</div>
+        <div class="co-line">Grid Dynamics — Lucidworks / Google Retail</div>
+        <ul>
+          <li>Engineered search request handlers and optimized indexing for Apache Solr and Lucidworks Fusion</li>
+          <li>Managed search infrastructure within AWS</li>
+        </ul>
+        <div class="tags"><span>Java 11</span><span>Solr</span><span>Lucidworks Fusion</span><span>AWS</span><span>Kubernetes</span></div>
+      </div>
+    </div>
+
+    <div class="record">
+      <div class="when">10/2019 — 12/2020</div>
+      <div class="record-body">
+        <div class="role-line">Senior Backend Developer / Tech Lead, Integration</div>
+        <div class="co-line">PayForce Ltd. — IBank client-banking system</div>
+        <ul>
+          <li>Sole developer for the integration layer between IBank and core banking backends</li>
+          <li>Built ISO8583/JPos integration with MTBank's CORTEX processing system — bill payments, card-to-card and card-to-phone transfers</li>
+          <li>Engineered an Apple In-App Provisioning module from scratch for card tokenization at Ukrainian banks</li>
+          <li>Implemented multi-layer cryptography: 3DES, AES, ECDH, RSA</li>
+        </ul>
+        <div class="tags"><span>Spring</span><span>PostgreSQL</span><span>ISO8583</span><span>JPos</span><span>RAML</span><span>Mockito</span></div>
+      </div>
+    </div>
+
+    <div class="record">
+      <div class="when">10/2017 — 09/2019</div>
+      <div class="record-body">
+        <div class="role-line">Java Developer</div>
+        <div class="co-line">Luxoft — Nova Poshta International</div>
+        <ul>
+          <li>Introduced Kafka and Apache NiFi for real-time data streaming in a cross-border logistics platform</li>
+          <li>Built centralized observability for WSO2 EI on the ELK Stack, including full setup and custom dashboards</li>
+          <li>Led migration from WSO2 ESB to WSO2 EI, ANT → Maven, MySQL → PostgreSQL; built caching and a user/roles service</li>
+        </ul>
+        <div class="tags"><span>Java</span><span>Spring Boot</span><span>Kafka</span><span>WSO2 EI</span><span>PostgreSQL</span></div>
+      </div>
+    </div>
+
+    <div class="record">
+      <div class="when">11/2016 — 10/2017</div>
+      <div class="record-body">
+        <div class="role-line">Java Developer</div>
+        <div class="co-line">Luxoft — Alfa Bank</div>
+        <ul>
+          <li>Developed a SOAP service for issuing additional credit cards; contributed to core codebase improvements</li>
+        </ul>
+        <div class="tags"><span>WSO2 ESB</span><span>Groovy</span><span>XSLT</span><span>XPath</span></div>
+      </div>
+    </div>
+
+    <div class="record">
+      <div class="when">01/2015 — 11/2016</div>
+      <div class="record-body">
+        <div class="role-line">Java Developer</div>
+        <div class="co-line">JSC Ukrcard</div>
+        <ul>
+          <li>Developed UkrAPI — a foundational REST service connecting external customers to the core processing backend</li>
+          <li>Built transaction monitoring tools for Mobile Banking and Money Transfer</li>
+        </ul>
+        <div class="tags"><span>Java</span><span>Oracle DB</span></div>
+      </div>
+    </div>
+
+    <div class="record">
+      <div class="when">1999 — 2014</div>
+      <div class="record-body">
+        <div class="role-line">Director of Service Dept / Low-Code Lead</div>
+        <div class="co-line">NCR Aptra Author Projects</div>
+        <ul>
+          <li>NDC+/S4I support, development and process automation using NCR Aptra Author and C</li>
+          <li>Deployed and integrated large-scale ATM networks with core banking systems</li>
+          <li>Patented a library for uploading media files to ATMs via NDC+/AANDC; certified Ukrsotsbank for EMV card issuance on Mastercard</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="field">DE-102 <span class="dim">· account identification — credentials</span></div>
+    <h2 class="section-title">Education &amp; Languages</h2>
+    <div class="two-col">
+      <div>
+        <h3>Education &amp; courses</h3>
+        <ul>
+          <li>National Technical University of Ukraine (KPI) — Engineer</li>
+          <li>NCR Certified Aptra Advance NDC courses</li>
+          <li>Spring Cloud — Udemy</li>
+          <li>Angular — Infopulse</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Languages</h3>
+        <ul>
+          <li>English — B2</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Response code 00 — approved. Reach out any time.</span>
+    <a href="mailto:andy.sinenko@gmail.com">andy.sinenko@gmail.com</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
